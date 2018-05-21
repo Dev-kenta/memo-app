@@ -35,7 +35,7 @@ export default {
   min-height: 700px;
 }
 .wrap {
-  max-width: 400px;
+  max-width: 600px;
   margin: auto;
 }
 </style>

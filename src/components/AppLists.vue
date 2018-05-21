@@ -9,7 +9,10 @@
                 <v-flex xs12 v-for="(list,index) in lists" :key="index">
                     <v-card color="cyan lighten-2" class="white--text">
                         <v-card-title primary-title>
-                            <v-flex xs8>
+                            <v-flex xs2>
+                                <v-checkbox v-model="checkbox[index]"></v-checkbox>
+                            </v-flex>
+                            <v-flex xs6>
                                 <div class="headline" xs6 align="left">{{ list.name }}</div>
                             </v-flex>
                             <v-flex xs4>
@@ -27,7 +30,8 @@
 export default {
   data () {
     return {
-      memoLists: []
+      memoLists: [],
+      checkbox: []
     }
   },
   mounted () {
@@ -36,7 +40,26 @@ export default {
   computed: {
     lists () {
       return this.memoLists
+    },
+    checked () {
+      return this.checkbox.filter(item => {
+        return item
+      })
+    },
+    watch: {
+      memoLists: {
+        handler: function () {
+          this.lists()
+        },
+        deep: true
+      }
     }
   }
 }
 </script>
+
+<style>
+    .input-group__details {
+      display: none;
+    }
+</style>

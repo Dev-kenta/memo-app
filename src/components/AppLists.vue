@@ -27,32 +27,25 @@
 </template>
 
 <script>
+import PropertyStore from '../models/store.js'
 export default {
   data () {
     return {
-      memoLists: [],
+      sharedState: PropertyStore,
       checkbox: []
     }
   },
   mounted () {
-    this.memoLists = JSON.parse(localStorage.getItem('memoLists')) || []
+    this.sharedState.state.property.memoLists = JSON.parse(localStorage.getItem('memoLists')) || []
   },
   computed: {
     lists () {
-      return this.memoLists
+      return this.sharedState.state.property.memoLists
     },
     checked () {
       return this.checkbox.filter(item => {
         return item
       })
-    },
-    watch: {
-      memoLists: {
-        handler: function () {
-          this.lists()
-        },
-        deep: true
-      }
     }
   }
 }

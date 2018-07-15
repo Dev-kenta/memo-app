@@ -30,9 +30,11 @@
 </template>
 
 <script>
+import PropertyStore from '../models/store.js'
+console.log(PropertyStore)
 export default {
   data: () => ({
-    memoLists: [],
+    sharedState: PropertyStore,
     name: '',
     nameRules: [
       v => !!v || '商品名は必須です'
@@ -49,10 +51,10 @@ export default {
   },
   methods: {
     submit () {
-      this.memoLists.push(
+      this.sharedState.state.property.memoLists.push(
         { name: this.name, category: this.radios }
       )
-      localStorage.setItem('memoLists', JSON.stringify(this.memoLists))
+      localStorage.setItem('memoLists', JSON.stringify(this.sharedState.state.property.memoLists))
       this.name = ''
     }
   }

@@ -31,7 +31,6 @@
 
 <script>
 import PropertyStore from '../models/store.js'
-console.log(PropertyStore)
 export default {
   data: () => ({
     sharedState: PropertyStore,
@@ -39,7 +38,7 @@ export default {
     nameRules: [
       v => !!v || '商品名は必須です'
     ],
-    radios: '食料品',
+    radios: 0,
     categorys: [
       { name: '食料品' },
       { name: '飲み物' },
@@ -51,8 +50,21 @@ export default {
   },
   methods: {
     submit () {
+      let cardClass = ''
+      if (this.radios === 0) {
+        cardClass = 'cyan darken-2'
+      } else if (this.radios === 1) {
+        cardClass = 'pink darken-2'
+      } else if (this.radios === 2) {
+        cardClass = 'lime darken-2'
+      }
       this.sharedState.state.property.memoLists.push(
-        { name: this.name, category: this.radios, completed: false }
+        {
+          name: this.name,
+          category: this.radios,
+          completed: false,
+          cardClass: cardClass
+        }
       )
       localStorage.setItem('memoLists', JSON.stringify(this.sharedState.state.property.memoLists))
       this.name = ''

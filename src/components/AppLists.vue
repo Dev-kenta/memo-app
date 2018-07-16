@@ -7,7 +7,7 @@
         >
             <v-layout row wrap>
                 <v-flex xs12 v-for="(list,index) in lists" :key="index" v-if="!list.completed">
-                    <v-card color="cyan lighten-2" class="white--text">
+                    <v-card color="blue-grey lighten-2" class="white--text">
                         <v-card-title primary-title>
                             <v-flex xs2>
                                 <v-checkbox v-model="checkbox[index]" @click="completed(index)"></v-checkbox>
@@ -16,7 +16,7 @@
                                 <div class="headline" xs6 align="left">{{ list.name }}</div>
                             </v-flex>
                             <v-flex xs4>
-                                <v-btn color="cyan darken-2" class="white--text">{{ category(list.category) }}</v-btn>
+                                <v-btn v-bind:color="list.cardClass" class="white--text">{{ category(list.category) }}</v-btn>
                             </v-flex>
                         </v-card-title>
                     </v-card>

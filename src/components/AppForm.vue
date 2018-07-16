@@ -18,7 +18,7 @@
                       v-for="(item,index) in categorys"
                       :key="index"
                       :label="item.name"
-                      :value="item.name"
+                      :value="index"
               ></v-radio>
             </v-radio-group>
             <v-btn @click="submit">追加</v-btn>
@@ -52,7 +52,7 @@ export default {
   methods: {
     submit () {
       this.sharedState.state.property.memoLists.push(
-        { name: this.name, category: this.radios }
+        { name: this.name, category: this.radios, completed: false }
       )
       localStorage.setItem('memoLists', JSON.stringify(this.sharedState.state.property.memoLists))
       this.name = ''

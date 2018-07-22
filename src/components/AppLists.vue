@@ -32,11 +32,12 @@ export default {
   data () {
     return {
       sharedState: PropertyStore,
-      checkbox: []
+      checkbox: [],
+      list: []
     }
   },
   mounted () {
-    this.sharedState.state.property.memoLists = JSON.parse(localStorage.getItem('memoLists')) || []
+    this.sharedState.state.property.memoLists = this.listen()
   },
   computed: {
     lists () {
@@ -53,6 +54,21 @@ export default {
       this.sharedState.state.property.memoLists[item]['completed'] = true
       localStorage.setItem('memoLists', JSON.stringify(this.sharedState.state.property.memoLists))
       console.log(this.sharedState.state.property.memoLists[item]['completed'])
+    },
+    listen () {
+      let list = []
+      firebase.database().ref('memoLists/').on('value', snapshot => { // eslint-disable-line
+        if (snapshot) {
+          const rootList = snapshot.val()
+          list = []
+          Object.keys(rootList).forEach((val, key) => {
+            rootList[val].id = val
+            list.push(rootList[val])
+            console.log(list)
+          })
+        }
+      })
+      return list
     }
   }
 }

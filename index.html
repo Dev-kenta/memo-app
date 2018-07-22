@@ -5,6 +5,14 @@
     <meta name="viewport" content="width=device-width,initial-scale=1.0">
     <title>memo-app</title>
     <link href='https://fonts.googleapis.com/css?family=Roboto:300,400,500,700|Material+Icons' rel="stylesheet">
+    <script src="https://www.gstatic.com/firebasejs/5.3.0/firebase.js"></script>
+    <script>
+        // Initialize Firebase
+        let config = {
+            databaseURL: "https://memo-app-ff27e.firebaseio.com",
+        };
+        firebase.initializeApp(config);
+    </script>
   </head>
   <body>
     <div id="app"></div>

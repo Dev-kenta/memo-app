@@ -66,6 +66,12 @@ export default {
           cardClass: cardClass
         }
       )
+      firebase.database().ref('memoLists/').push({ // eslint-disable-line
+        name: this.name,
+        category: this.radios,
+        completed: false,
+        cardClass: cardClass
+      })
       localStorage.setItem('memoLists', JSON.stringify(this.sharedState.state.property.memoLists))
       this.name = ''
     }

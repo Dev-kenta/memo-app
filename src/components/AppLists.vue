@@ -37,11 +37,11 @@ export default {
     }
   },
   mounted () {
-    this.sharedState.state.property.memoLists = this.listen()
+    this.list = this.listen()
   },
   computed: {
     lists () {
-      let lists = this.sharedState.state.property.memoLists
+      let lists = this.list
       return lists
     }
   },
@@ -56,19 +56,17 @@ export default {
       console.log(this.sharedState.state.property.memoLists[item]['completed'])
     },
     listen () {
-      let list = []
       firebase.database().ref('memoLists/').on('value', snapshot => { // eslint-disable-line
         if (snapshot) {
           const rootList = snapshot.val()
-          list = []
+          this.list = []
           Object.keys(rootList).forEach((val, key) => {
             rootList[val].id = val
-            list.push(rootList[val])
-            console.log(list)
+            this.list.push(rootList[val])
           })
         }
       })
-      return list
+      return this.list
     }
   }
 }

@@ -51,9 +51,21 @@ export default {
       return categorys[index]
     },
     completed (item) {
-      this.sharedState.state.property.memoLists[item]['completed'] = true
-      localStorage.setItem('memoLists', JSON.stringify(this.sharedState.state.property.memoLists))
-      console.log(this.sharedState.state.property.memoLists[item]['completed'])
+      let key = ''
+      firebase.database().ref('memoLists/').on('value', snapshot => { // eslint-disable-line
+        if (snapshot) {
+          let count = 0
+          snapshot.forEach((val) => {
+            if (count === item) {
+              key = val.key
+            }
+            count++
+          })
+        }
+      })
+      firebase.database().ref(`memoLists/${key}`).update({ // eslint-disable-line
+        'completed': true
+      })
     },
     listen () {
       firebase.database().ref('memoLists/').on('value', snapshot => { // eslint-disable-line

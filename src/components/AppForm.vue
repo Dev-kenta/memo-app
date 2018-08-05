@@ -34,6 +34,7 @@ import PropertyStore from '../models/store.js'
 export default {
   data: () => ({
     sharedState: PropertyStore,
+    db: PropertyStore.state.db[process.env.NODE_ENV],
     name: '',
     nameRules: [
       v => !!v || '商品名は必須です'
@@ -46,7 +47,7 @@ export default {
     ]
   }),
   mounted () {
-    this.memoLists = JSON.parse(localStorage.getItem('memoLists')) || []
+    // this.memoLists = JSON.parse(localStorage.getItem('memoLists')) || []
   },
   methods: {
     submit () {
@@ -66,7 +67,7 @@ export default {
       //     cardClass: cardClass
       //   }
       // )
-      firebase.database().ref('memoLists/').push({ // eslint-disable-line
+      firebase.database().ref(`${this.db}/`).push({ // eslint-disable-line
         name: this.name,
         category: this.radios,
         completed: false,

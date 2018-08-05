@@ -33,7 +33,8 @@ export default {
     return {
       sharedState: PropertyStore,
       checkbox: [],
-      list: []
+      list: [],
+      db: PropertyStore.state.db[process.env.NODE_ENV]
     }
   },
   mounted () {
@@ -52,7 +53,7 @@ export default {
     },
     completed (item) {
       let key = ''
-      firebase.database().ref('memoLists/').on('value', snapshot => { // eslint-disable-line
+      firebase.database().ref(`${this.db}/`).on('value', snapshot => { // eslint-disable-line
         if (snapshot) {
           let count = 0
           snapshot.forEach((val) => {
@@ -63,12 +64,12 @@ export default {
           })
         }
       })
-      firebase.database().ref(`memoLists/${key}`).update({ // eslint-disable-line
+      firebase.database().ref(`${this.db}/${key}`).update({ // eslint-disable-line
         'completed': true
       })
     },
     listen () {
-      firebase.database().ref('memoLists/').on('value', snapshot => { // eslint-disable-line
+      firebase.database().ref(`${this.db}/`).on('value', snapshot => { // eslint-disable-line
         if (snapshot) {
           const rootList = snapshot.val()
           this.list = []
@@ -78,6 +79,7 @@ export default {
           })
         }
       })
+      console.log(this.db)
       return this.list
     }
   }

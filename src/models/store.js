@@ -9,6 +9,10 @@ let PropertyStore = {
         1: '飲み物',
         2: 'お菓子'
       }
+    },
+    db: {
+      development: 'memoLists-local',
+      production: 'memoLists'
     }
   }
 }

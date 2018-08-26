@@ -71,6 +71,7 @@ export default {
         name: this.name,
         category: this.radios,
         completed: false,
+        deleted: false,
         cardClass: cardClass
       })
       // localStorage.setItem('memoLists', JSON.stringify(this.sharedState.state.property.memoLists))

@@ -6,17 +6,22 @@
                 grid-list-lg
         >
             <v-layout row wrap>
-                <v-flex xs12 v-for="(list,index) in lists" :key="index" v-if="!list.completed">
-                    <v-card color="blue-grey lighten-2" class="white--text">
+                <v-flex xs12 v-for="(list,index) in lists" :key="index" v-if="!list.deleted">
+                    <v-card color="blue-grey lighten-2" class="white--text" v-bind:class="state(list.completed)">
                         <v-card-title primary-title>
                             <v-flex xs2>
-                                <v-checkbox v-model="checkbox[index]" @click="completed(index)"></v-checkbox>
+                                <v-checkbox v-model="checkbox[index]" @click="completed(index,list.completed)"></v-checkbox>
                             </v-flex>
-                            <v-flex xs6>
+                            <v-flex xs4>
                                 <div class="headline" xs6 align="left">{{ list.name }}</div>
                             </v-flex>
                             <v-flex xs4>
                                 <v-btn v-bind:color="list.cardClass" class="white--text">{{ category(list.category) }}</v-btn>
+                            </v-flex>
+                            <v-flex xs2>
+                                <v-btn icon @click="deleted(index)">
+                                  <v-icon>clear</v-icon>
+                                </v-btn>
                             </v-flex>
                         </v-card-title>
                     </v-card>
@@ -39,6 +44,7 @@ export default {
   },
   mounted () {
     this.list = this.listen()
+    this.checkbox = this.completedState()
   },
   computed: {
     lists () {
@@ -51,7 +57,32 @@ export default {
       let categorys = this.sharedState.state.const.category
       return categorys[index]
     },
-    completed (item) {
+    completed (item, state) {
+      let key = ''
+      firebase.database().ref(`${this.db}/`).on('value', snapshot => { // eslint-disable-line
+        if (snapshot) {
+          let count = 0
+          snapshot.forEach((val) => {
+            if (count === item) {
+              key = val.key
+            }
+            count++
+          })
+        }
+      })
+      if (state) {
+        firebase.database().ref(`${this.db}/${key}`).update({ // eslint-disable-line
+          'completed': false
+        })
+        this.checkbox[item] = false
+      } else {
+        firebase.database().ref(`${this.db}/${key}`).update({ // eslint-disable-line
+          'completed': true
+        })
+        this.checkbox[item] = true
+      }
+    },
+    deleted (item) {
       let key = ''
       firebase.database().ref(`${this.db}/`).on('value', snapshot => { // eslint-disable-line
         if (snapshot) {
@@ -65,8 +96,15 @@ export default {
         }
       })
       firebase.database().ref(`${this.db}/${key}`).update({ // eslint-disable-line
-        'completed': true
+        'deleted': true
       })
+    },
+    state (state) {
+      if (state) {
+        return 'true'
+      } else {
+        return 'false'
+      }
     },
     listen () {
       firebase.database().ref(`${this.db}/`).on('value', snapshot => { // eslint-disable-line
@@ -79,8 +117,20 @@ export default {
           })
         }
       })
-      console.log(this.db)
       return this.list
+    },
+    completedState () {
+      firebase.database().ref(`${this.db}/`).on('value', snapshot => { // eslint-disable-line
+        if (snapshot) {
+          const rootList = snapshot.val()
+          this.checkbox = []
+          Object.keys(rootList).forEach((val, key) => {
+            rootList[val].id = val
+            this.checkbox.push(rootList[val]['completed'])
+          })
+        }
+      })
+      return this.checkbox
     }
   }
 }

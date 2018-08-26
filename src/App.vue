@@ -2,12 +2,12 @@
   <div id="app" class="grey lighten-3">
     <div class="wrap white">
       <v-toolbar color="teal darken-1">
-        <v-toolbar-side-icon></v-toolbar-side-icon>
+        <!--<v-toolbar-side-icon></v-toolbar-side-icon>-->
         <v-toolbar-title class="white--text">メモApp</v-toolbar-title>
         <v-spacer></v-spacer>
-        <v-btn icon>
-          <v-icon>search</v-icon>
-        </v-btn>
+        <!--<v-btn icon>-->
+          <!--<v-icon>search</v-icon>-->
+        <!--</v-btn>-->
       </v-toolbar>
       <app-form/>
       <app-lists/>

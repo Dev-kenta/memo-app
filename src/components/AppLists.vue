@@ -101,9 +101,7 @@ export default {
     },
     state (state) {
       if (state) {
-        return 'true'
-      } else {
-        return 'false'
+        return 'completed'
       }
     },
     listen () {
@@ -139,5 +137,11 @@ export default {
 <style>
     .input-group__details {
       display: none;
+    }
+    .card.completed {
+        opacity: 0.4;
+    }
+    .card.completed .headline {
+        text-decoration: line-through;
     }
 </style>

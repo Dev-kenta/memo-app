@@ -16,9 +16,6 @@
                             <v-flex xs8>
                                 <div class="headline" xs6 align="left">{{ list.name }}</div>
                             </v-flex>
-                            <!--<v-flex xs4>-->
-                                <!--<v-btn v-bind:color="list.cardClass" class="white&#45;&#45;text">{{ category(list.category) }}</v-btn>-->
-                            <!--</v-flex>-->
                             <v-flex xs2>
                                 <v-btn icon @click="deleted(index)">
                                   <v-icon>clear</v-icon>
@@ -145,7 +142,7 @@ export default {
     .card.completed .headline {
         text-decoration: line-through;
     }
-    .category_label {
+    .container .category_label {
         position: absolute;
         top: -15px;
         left: -15px;

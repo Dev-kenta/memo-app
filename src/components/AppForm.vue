@@ -17,7 +17,7 @@
               <v-radio
                       v-for="(item,index) in categorys"
                       :key="index"
-                      :label="item.name"
+                      :label="item"
                       :value="index"
               ></v-radio>
             </v-radio-group>
@@ -39,34 +39,21 @@ export default {
     nameRules: [
       v => !!v || '商品名は必須です'
     ],
-    radios: 0,
-    categorys: [
-      { name: '食料品' },
-      { name: '飲み物' },
-      { name: 'お菓子' }
-    ]
+    radios: '0',
+    categorys: PropertyStore.state.const.category
   }),
-  mounted () {
-    // this.memoLists = JSON.parse(localStorage.getItem('memoLists')) || []
-  },
   methods: {
     submit () {
       let cardClass = ''
-      if (this.radios === 0) {
+      if (this.radios === '0') {
         cardClass = 'cyan darken-2'
-      } else if (this.radios === 1) {
+      } else if (this.radios === '1') {
         cardClass = 'pink darken-2'
-      } else if (this.radios === 2) {
+      } else if (this.radios === '2') {
         cardClass = 'lime darken-2'
+      } else if (this.radios === '3') {
+        cardClass = 'deep-orange darken-2'
       }
-      // this.sharedState.state.property.memoLists.push(
-      //   {
-      //     name: this.name,
-      //     category: this.radios,
-      //     completed: false,
-      //     cardClass: cardClass
-      //   }
-      // )
       firebase.database().ref(`${this.db}/`).push({ // eslint-disable-line
         name: this.name,
         category: this.radios,
@@ -74,7 +61,6 @@ export default {
         deleted: false,
         cardClass: cardClass
       })
-      // localStorage.setItem('memoLists', JSON.stringify(this.sharedState.state.property.memoLists))
       this.name = ''
     }
   }

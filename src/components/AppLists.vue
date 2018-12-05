@@ -8,16 +8,17 @@
             <v-layout row wrap>
                 <v-flex xs12 v-for="(list,index) in lists" :key="index" v-if="!list.deleted">
                     <v-card color="blue-grey lighten-2" class="white--text" v-bind:class="state(list.completed)">
+                        <v-btn v-bind:color="list.cardClass" class="white--text category_label">{{ category(list.category) }}</v-btn>
                         <v-card-title primary-title>
                             <v-flex xs2>
                                 <v-checkbox v-model="checkbox[index]" @click="completed(index,list.completed)"></v-checkbox>
                             </v-flex>
-                            <v-flex xs4>
+                            <v-flex xs8>
                                 <div class="headline" xs6 align="left">{{ list.name }}</div>
                             </v-flex>
-                            <v-flex xs4>
-                                <v-btn v-bind:color="list.cardClass" class="white--text">{{ category(list.category) }}</v-btn>
-                            </v-flex>
+                            <!--<v-flex xs4>-->
+                                <!--<v-btn v-bind:color="list.cardClass" class="white&#45;&#45;text">{{ category(list.category) }}</v-btn>-->
+                            <!--</v-flex>-->
                             <v-flex xs2>
                                 <v-btn icon @click="deleted(index)">
                                   <v-icon>clear</v-icon>
@@ -143,5 +144,10 @@ export default {
     }
     .card.completed .headline {
         text-decoration: line-through;
+    }
+    .category_label {
+        position: absolute;
+        top: -15px;
+        left: -15px;
     }
 </style>
